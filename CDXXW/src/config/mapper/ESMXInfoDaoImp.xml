@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+
+namespace:必须是dao接口的全接口名
+
+id:必须是方法名
+
+ -->
+ 
+ <mapper namespace="com.baidu.dao.imp.ESMXInfoDaoImp">
+ 
+ <!-- 增加二手明细信息 -->
+<insert id="addESMX" parameterType="com.baidu.model.ESMXINFO">
+		INSERT INTO ESMXINFO(XX_ID,ES_PRICE,ES_CS,ES_CONTENT,ES_PHONE,ES_QQ) VALUES 
+		(#{XX_ID},#{ES_PRICE},#{ES_CS},#{ES_CONTENT},#{ES_PHONE},#{ES_QQ})
+</insert>
+
+<!-- 得到该二手信息的明细信息 -->
+<select id="getESMX" resultType="com.baidu.model.ESMXINFO" parameterType="com.baidu.model.XXINFO">
+	select * from ESMXINFO  
+	 <if test="XX_ID!=null and XX_ID!='' ">  
+        WHERE XX_ID = #{XX_ID}   
+    </if>  
+</select>
+
+<!-- 修改二手明细信息 -->
+<update id="editESMX" parameterType="com.baidu.model.ESMXINFO">
+		UPDATE ESMXINFO SET ES_CS = #{ES_CS},ES_PRICE = #{ES_PRICE},ES_PHONE = #{ES_PHONE},ES_QQ = #{ES_QQ},ES_CONTENT = #{ES_CONTENT}
+		WHERE XX_ID  = #{XX_ID}
+</update>
+
+<!-- 修改交易状态 -->
+
+<update id="editES_STATE" parameterType="com.baidu.model.XXINFO">
+	UPDATE XXINFO SET XX_STATE = #{XX_STATE}
+	WHERE XX_ID = #{XX_ID}
+</update>
+ </mapper>

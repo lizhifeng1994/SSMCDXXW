@@ -1,0 +1,113 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,member-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<script type="text/javascript" src="lib/PIE_IE678.js"></script>
+<![endif]-->
+<link href="css/H-ui.min.css" rel="stylesheet" type="text/css" />
+<link href="css/H-ui.admin.css" rel="stylesheet" type="text/css" />
+<link href="lib/icheck/icheck.css" rel="stylesheet" type="text/css" />
+<link href="lib/Hui-iconfont/1.0.1/iconfont.css" rel="stylesheet" type="text/css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="http://lib.h-ui.net/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>站内通知</title>
+</head>
+<body>
+<div class="pd-20">
+	<form action="" method="post" class="form form-horizontal" id="form-category-add">
+		
+        <div id="tab-category" class="HuiTab">
+			<div class="tabBar cl"><span>发送站内通知</span></div>
+			
+            <div class="tabCon" style="margin-top:20px;">
+				<label class="form-label col-3">用户名称：</label>
+					<div class="formControls col-6">
+						<input type="text" class="input-text" value="" placeholder="" id="" name="" >
+					</div>
+				<div class="row cl">
+					<label class="form-label col-3" style="margin-top:20px;"><!--<span class="c-red">*</span>-->用户类型：</label>
+					<div class="formControls col-6" style="margin-top:20px;"> <span class="select-box">
+						<select class="select" id="sel_Sub" name="sel_Sub" onchange="SetSubID(this);">
+							<option value="0">请选择</option>
+                             <option value="5">全部用户</option>
+                            <option value="1">校部负责人</option>
+                            <option value="2">系部负责人</option>
+                            <option value="3">社团负责人</option>
+                            <option value="4">普通用户</option>
+						</select>
+						</span> </div>
+					<div class="col-3"> </div>
+				</div>
+               			
+                
+				<div class="row cl">
+					<label class="form-label col-3">用户结果列表：</label>
+					<div class="formControls col-6"> <span class="select-box">
+						<select name="" class="select">
+                        	<option value="0">请选择用户</option>
+							<option value="1">文章</option>
+							<option value="2">图片</option>
+							<option value="3">商品</option>
+							<option value="4">视频</option>
+							<option value="5">专题</option>
+							<option value="6">链接</option>
+						</select>
+						</span> </div>
+					<div class="col-3"> </div>
+				</div>
+                
+                
+                			<div class="row cl">
+					<label class="form-label col-3">内容：</label>
+					<div class="formControls col-6">
+						<textarea name="" cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" datatype="*10-100" dragonfly="true" nullmsg="备注不能为空！" onKeyUp="textarealength(this,100)"></textarea>
+						<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
+					</div>
+      			</div>
+			</div>
+                 
+		<div class="row cl">
+			<div class="col-9 col-offset-3">
+				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;发送站内通知&nbsp;&nbsp;">
+			</div>
+		</div>
+	</form>
+</div>
+</div>
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="lib/icheck/jquery.icheck.min.js"></script> 
+<script type="text/javascript" src="lib/Validform/5.3.2/Validform.min.js"></script> 
+<script type="text/javascript" src="lib/layer/1.9.3/layer.js"></script> 
+<script type="text/javascript" src="js/H-ui.js"></script> 
+<script type="text/javascript" src="js/H-ui.admin.js"></script> 
+<script type="text/javascript">
+$(function(){
+	$('.skin-minimal input').iCheck({
+		checkboxClass: 'icheckbox-blue',
+		radioClass: 'iradio-blue',
+		increaseArea: '20%'
+	});
+	
+	$("#form-article-category-add").Validform({
+		tiptype:2,
+		callback:function(form){
+			form[0].submit();
+			var index = parent.layer.getFrameIndex(window.name);
+			parent.$('.btn-refresh').click();
+			parent.layer.close(index);
+		}
+	});
+	$.Huitab("#tab-category .tabBar span","#tab-category .tabCon","current","click","0");
+});
+</script>
+</body>
+</html>

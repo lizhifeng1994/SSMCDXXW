@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<mappers>
+		 <mapper resource="config/mapper/USERInfoDaoImp.xml"/> 
+		 <mapper resource="config/mapper/XXInfoDaoImp.xml"/>
+		 <mapper resource="config/mapper/JZMXInfoDaoImp.xml"/>
+		 <mapper resource="config/mapper/ESMXInfoDaoImp.xml"/>
+		 <mapper resource="config/mapper/HDMXInfoDaoImp.xml"/>
+		 <mapper resource="config/mapper/SCInfoDaoImp.xml"/>
+		 <mapper resource="config/mapper/YHDTInfoDaoImp.xml"/>
+		 <mapper resource="config/mapper/HDLYInfoDaoImp.xml"/>
+		 <mapper resource="config/mapper/JBXXInfoDaoImp.xml"/>
+		 <mapper resource="config/mapper/ZNTZInfoDaoImp.xml"/>
+	</mappers>
+	
+</configuration>

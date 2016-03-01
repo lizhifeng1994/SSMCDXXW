@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+ <mapper namespace="com.baidu.dao.imp.YHDTInfoDaoImp">
+ <!-- 得到全部的收藏信息 -->
+<select id="getAll" resultType="com.baidu.model.YHDTINFO"  parameterType="com.baidu.model.YHDTINFO">
+		select * from YHDTINFO WHERE YHDT_FLAG = '1' 	
+		<if test=" USER_NAME!= null and USER_NAME != ''">and   USER_NAME  LIKE CONCAT(CONCAT('%',#{USER_NAME}),'%')</if>
+		<if test=" XX_TITLE!= null and XX_TITLE != ''">and   XX_TITLE  LIKE CONCAT(CONCAT('%',#{XX_TITLE}),'%')</if>	
+		Order By YHDT_TIME DESC
+		limit #{sqlPageSize},#{pageSize}
+</select>
+
+<!-- 得到相应信息的条数 --> 
+<select id="getCount" resultType="int" parameterType="com.baidu.model.YHDTINFO">
+	SELECT COUNT(*) FROM YHDTINFO WHERE YHDT_FLAG = '1' 
+	<if test=" USER_NAME!= null and USER_NAME != ''">and   USER_NAME  LIKE CONCAT(CONCAT('%',#{USER_NAME}),'%')</if>
+	<if test=" XX_TITLE!= null and XX_TITLE != ''">and   XX_TITLE  LIKE CONCAT(CONCAT('%',#{XX_TITLE}),'%')</if>	
+</select>
+
+<!-- 删除 -->
+<update id="del"  parameterType="com.baidu.model.YHDTINFO">
+	UPDATE YHDTINFO SET YHDT_FLAG='0' WHERE YHDT_ID = #{YHDT_ID}
+</update>
+
+<insert id="add" parameterType="com.baidu.model.YHDTINFO">
+	INSERT INTO YHDTINFO(YHDT_ID,XX_ID,XX_TYPE,XX_TITLE,USER_NAME,YHDT_TYPE) VALUES 
+		(#{YHDT_ID},#{XX_ID},#{XX_TYPE},#{XX_TITLE},#{USER_NAME},#{YHDT_TYPE})
+</insert>
+ </mapper>
+ 
+ 

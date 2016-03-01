@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+
+namespace:必须是dao接口的全接口名
+
+id:必须是方法名
+
+ -->
+ <mapper namespace="com.baidu.dao.imp.JBXXInfoDaoImp">
+ 
+ <!-- 得到全部的收藏信息 -->
+<select id="getAll" resultType="com.baidu.model.JBXXINFO"  parameterType="com.baidu.model.JBXXINFO">
+		select * from JBXXINFO WHERE JB_FLAG = '1' 	
+		<if test=" USER_NAME!= null and USER_NAME != ''">and   USER_NAME  LIKE CONCAT(CONCAT('%',#{USER_NAME}),'%')</if>
+		<if test=" JB_TYPE!= null and JB_TYPE != ''">and   JB_TYPE = #{JB_TYPE}</if>
+		<if test=" JB_STATE!= null and JB_STATE != ''">and   JB_STATE = #{JB_STATE}</if>
+		<if test=" XX_TITLE!= null and XX_TITLE != ''">and   XX_TITLE  LIKE CONCAT(CONCAT('%',#{XX_TITLE}),'%')</if>	
+		Order By JB_TIME DESC
+		limit #{sqlPageSize},#{pageSize}
+</select>
+
+<!-- 得到相应信息的条数 --> 
+<select id="getCount" resultType="int" parameterType="com.baidu.model.JBXXINFO">
+	SELECT COUNT(*) FROM JBXXINFO WHERE JB_FLAG = '1' 
+	<if test=" USER_NAME!= null and USER_NAME != ''">and   USER_NAME  LIKE CONCAT(CONCAT('%',#{USER_NAME}),'%')</if>
+		<if test=" JB_TYPE!= null and JB_TYPE != ''">and   JB_TYPE = #{JB_TYPE}</if>
+		<if test=" JB_STATE!= null and JB_STATE != ''">and   JB_STATE = #{JB_STATE}</if>
+		<if test=" XX_TITLE!= null and XX_TITLE != ''">and   XX_TITLE  LIKE CONCAT(CONCAT('%',#{XX_TITLE}),'%')</if>	
+</select>
+
+<!-- 删除 -->
+<update id="del"  parameterType="com.baidu.model.JBXXINFO">
+	UPDATE JBXXINFO SET JB_FLAG='0' WHERE JB_ID = #{JB_ID}
+</update>
+
+<!-- 改变处理状态 -->
+<update id="update"  parameterType="com.baidu.model.JBXXINFO">
+	UPDATE JBXXINFO SET JB_STATE='0' WHERE JB_ID = #{JB_ID}
+</update>
+
+<!-- 添加举报信息 -->
+<insert id="add" parameterType="com.baidu.model.JBXXINFO">
+ INSERT INTO JBXXINFO(JB_ID,XX_ID,XX_TITLE,USER_NAME,JB_CONTENT,JB_TYPE) VALUES 
+		(#{JB_ID},#{XX_ID},#{XX_TITLE},#{USER_NAME},#{JB_CONTENT},#{JB_TYPE})
+</insert>
+ </mapper>
+ 
+ 

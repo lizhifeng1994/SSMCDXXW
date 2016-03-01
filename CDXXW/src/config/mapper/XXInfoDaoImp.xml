@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+
+namespace:必须是dao接口的全接口名
+
+id:必须是方法名
+
+ -->
+ 
+  
+<mapper namespace="com.baidu.dao.imp.XXInfoDaoImp">
+
+ <!-- 得到全部的信息 -->
+<select id="getXXList" resultType="com.baidu.model.XXINFO"  parameterType="com.baidu.model.XXINFO">
+		select * from XXINFO WHERE XX_TYPE = #{XX_TYPE} AND XX_FLAG = '1' 	
+		<if test=" XX_TITLE!= null and XX_TITLE != ''">and   XX_TITLE  LIKE CONCAT(CONCAT('%',#{XX_TITLE}),'%')</if>
+		<if test=" XXMX_TYPE!= null and XXMX_TYPE != ''">and   XXMX_TYPE = #{XXMX_TYPE}</if>
+		<if test=" XX_STATE!= null and XX_STATE != ''">and   XX_STATE = #{XX_STATE}</if>
+		<if test=" USER_NAME!= null and USER_NAME != ''">and   USER_NAME  LIKE CONCAT(CONCAT('%',#{USER_NAME}),'%')</if>
+		Order By XX_TIME DESC	
+		limit #{sqlPageSize},#{pageSize}
+</select>
+
+<!-- 得到相应信息的条数 -->
+<select id="getXXCount" resultType="int" parameterType="com.baidu.model.XXINFO">
+	SELECT COUNT(*) FROM XXINFO WHERE XX_FLAG = '1'
+	<if test=" XX_TYPE!= null and XX_TYPE != ''">and   XX_TYPE = #{XX_TYPE}</if>
+	<if test=" XX_TITLE!= null and XX_TITLE != ''">and   XX_TITLE  LIKE CONCAT(CONCAT('%',#{XX_TITLE}),'%')</if>
+	<if test=" XXMX_TYPE!= null and XXMX_TYPE != ''">and   XXMX_TYPE = #{XXMX_TYPE}</if>
+	<if test=" USER_NAME!= null and USER_NAME != ''">and   USER_NAME  LIKE CONCAT(CONCAT('%',#{USER_NAME}),'%')</if>	
+</select>
+
+<!-- 得到特定的兼职信息 -->
+<select id="getXXINFO" resultType="com.baidu.model.XXINFO" parameterType="com.baidu.model.XXINFO">
+	select * from XXINFO WHERE XX_TYPE = #{XX_TYPE} AND XX_FLAG = '1' 
+	<if test=" XX_ID!= null and XX_ID != ''">and   XX_ID = #{XX_ID}</if>
+	<if test=" XX_TITLE!= null and XX_TITLE != ''">and   XX_TITLE = #{XX_TITLE}</if>
+	<if test=" USER_NAME!= null and USER_NAME != ''">and   USER_NAME = #{USER_NAME}</if>
+	<if test=" XX_TIME!= null and XX_TIME != ''">and   XX_TIME = #{XX_TIME}</if>
+	<if test=" XX_SC!= null and XX_SC != ''">and   XX_SC = #{XX_SC}</if>
+	<if test=" XX_LL!= null and XX_LL != ''">and   XX_LL = #{XX_LL}</if>	
+	<if test=" XX_FLAG!= null and XX_FLAG != ''">and   XX_FLAG = #{XX_FLAG}</if>
+	<if test=" XXMX_TYPE!= null and XXMX_TYPE != ''">and   XXMX_TYPE = #{XXMX_TYPE}</if>
+	<if test=" XX_STATE!= null and XX_STATE != ''">and   XX_STATE  LIKE CONCAT(CONCAT('%',#{XX_STATE}),'%')</if>
+</select>
+
+<!-- 修改信息 -->
+<update id="editXX" parameterType="com.baidu.model.XXINFO">
+	UPDATE XXINFO SET XX_TITLE = #{XX_TITLE},XXMX_TYPE = #{XXMX_TYPE}
+	WHERE XX_ID  = #{XX_ID}
+</update>
+
+<!--删除信息  -->
+<update id="delXX" parameterType="com.baidu.model.XXINFO">
+	UPDATE XXINFO SET XX_FLAG = '0'
+	WHERE XX_ID  = #{XX_ID}
+</update>
+
+<!-- 增加信息 -->
+<insert id="addXX" parameterType="com.baidu.model.XXINFO">
+		INSERT INTO XXINFO(XX_ID,XX_TITLE,XX_TYPE,USER_NAME,XXMX_TYPE) VALUES 
+		(#{XX_ID},#{XX_TITLE},#{XX_TYPE},#{USER_NAME},#{XXMX_TYPE})
+</insert>
+
+<!-- 得到该信息的图片信息 -->
+<select id="getImage" resultType="com.baidu.model.IMAGEINFO" parameterType="com.baidu.model.XXINFO">
+	select * from IMAGEINFO  
+	 <if test="XX_ID!=null and XX_ID!='' ">  
+        WHERE XX_ID = #{XX_ID}   
+    </if>  
+</select>
+
+<!-- 插入信息的图片信息 -->
+<insert id="addImage" parameterType="com.baidu.model.IMAGEINFO">
+		INSERT INTO IMAGEINFO(XX_ID,IMAGE_NAME,IMAGE_TYPE) VALUES 
+		(#{XX_ID},#{IMAGE_NAME},#{IMAGE_TYPE})
+</insert>
+
+<!-- 删除信息的图片信息 -->
+<delete id="delImage" parameterType="com.baidu.model.IMAGEINFO">
+	DELETE FROM IMAGEINFO 
+		WHERE XX_ID = #{XX_ID}
+</delete>
+
+<!-- 	找出最热门的三个活动信息 -->
+<select id="getHotHDXXList" resultType="com.baidu.model.XXINFO" parameterType="com.baidu.model.XXINFO" >
+	select * from XXINFO  WHERE XX_TYPE ='3' AND XX_STATE='0' AND XX_FLAG='1' Order By XX_LL DESC ,XX_SC DESC LIMIT 3
+</select>
+
+
+<!-- 找出10条最新的的兼职信息 -->
+<select id="getNewJZXXList" resultType="com.baidu.model.XXINFO" parameterType="com.baidu.model.XXINFO" >
+	select * from XXINFO  WHERE XX_TYPE ='1' AND XX_FLAG='1'  Order By XX_TIME DESC LIMIT 10
+</select>
+
+<!-- 找出10条最新的二手信息 -->
+<select id="getNEWESXXList"  resultType="com.baidu.model.XXINFO" parameterType="com.baidu.model.XXINFO" >
+	select * from XXINFO  WHERE XX_TYPE ='2' AND XX_FLAG='1' Order By XX_TIME DESC LIMIT 10
+</select>
+
+<!-- 根绝相关类型得到三个 -->
+<select id="getGROOMList" resultType="com.baidu.model.XXINFO" parameterType="com.baidu.model.XXINFO">
+		select * from XXINFO  WHERE XX_ID!=#{XX_ID} AND XX_TYPE =#{XX_TYPE} AND XXMX_TYPE=#{XXMX_TYPE} AND XX_STATE=#{XX_STATE} AND XX_FLAG='1' Order By XX_LL DESC ,XX_SC DESC LIMIT 3
+</select>
+
+<!-- 找出10条最热门的兼职信息 -->
+<select id="getHotJZXXlist" resultType="com.baidu.model.XXINFO" parameterType="com.baidu.model.XXINFO">
+	select * from XXINFO  WHERE XX_TYPE ='1' AND XX_STATE='1' AND XX_FLAG='1' Order By XX_LL DESC ,XX_SC DESC LIMIT 10
+</select>
+
+<select id="getGroomJzxxList" resultType="com.baidu.model.XXINFO" parameterType="com.baidu.model.XXINFO">
+	select * from XXINFO  WHERE XX_ID!=#{XX_ID} AND XX_TYPE =#{XX_TYPE} AND XXMX_TYPE=#{XXMX_TYPE} AND XX_STATE=#{XX_STATE} AND XX_FLAG='1' Order By XX_LL DESC ,XX_SC DESC LIMIT 5
+</select>
+
+<!-- 收藏+1 -->
+<update id="updateXX_SC" parameterType="com.baidu.model.XXINFO">
+	UPDATE XXINFO set   XX_SC = #{XX_SC} WHERE XX_ID  = #{XX_ID}
+</update>
+
+<!-- 浏览+1 -->
+<update id="updateXX_LL" parameterType="com.baidu.model.XXINFO">
+	UPDATE XXINFO set   XX_LL  = #{XX_LL} WHERE XX_ID  = #{XX_ID}
+</update>
+
+</mapper>

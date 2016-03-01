@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+
+namespace:必须是dao接口的全接口名
+
+id:必须是方法名
+
+ -->
+ <mapper namespace="com.baidu.dao.imp.HDLYInfoDaoImp">
+ 	 <!-- 得到全部的收藏信息 -->
+<select id="getAll" resultType="com.baidu.model.HDLYINFO"  parameterType="com.baidu.model.HDLYINFO">
+		select * from HDLYINFO WHERE HDLY_FLAG = '1' 	
+		<if test=" LY_NAME!= null and LY_NAME != ''">and   LY_NAME  LIKE CONCAT(CONCAT('%',#{LY_NAME}),'%')</if>
+		<if test=" HF_NAME!= null and HF_NAME != ''">and   HF_NAME  LIKE CONCAT(CONCAT('%',#{HF_NAME}),'%')</if>
+		<if test=" XX_TITLE!= null and XX_TITLE != ''">and   XX_TITLE  LIKE CONCAT(CONCAT('%',#{XX_TITLE}),'%')</if>
+		Order By LY_TIME DESC	
+		limit #{sqlPageSize},#{pageSize}
+</select>
+
+<!-- 得到相应信息的条数 --> 
+<select id="getCount" resultType="int" parameterType="com.baidu.model.HDLYINFO">
+	SELECT COUNT(*) FROM HDLYINFO WHERE HDLY_FLAG = '1'
+		<if test=" XX_ID!= null and XX_ID != ''">and   XX_ID = #{XX_ID}</if>
+		<if test=" LY_NAME!= null and LY_NAME != ''">and   LY_NAME  LIKE CONCAT(CONCAT('%',#{LY_NAME}),'%')</if>
+		<if test=" HF_NAME!= null and HF_NAME != ''">and   HF_NAME  LIKE CONCAT(CONCAT('%',#{HF_NAME}),'%')</if>
+		<if test=" XX_TITLE!= null and XX_TITLE != ''">and   XX_TITLE  LIKE CONCAT(CONCAT('%',#{XX_TITLE}),'%')</if>	
+</select>
+
+<!-- 删除 -->
+<update id="del"  parameterType="com.baidu.model.HDLYINFO">
+	UPDATE HDLYINFO SET HDLY_FLAG='0' WHERE HDLY_ID = #{HDLY_ID}
+</update>
+
+<!-- 根绝活动信息ID得到该活动信息下面的留言信息 -->
+<select id="getHDLYList" resultType="com.baidu.model.HDLYINFO" parameterType="com.baidu.model.XXINFO">
+		select * from HDLYINFO WHERE HDLY_FLAG = '1' 	
+		<if test=" XX_ID!= null and XX_ID != ''">and XX_ID = #{XX_ID}</if>
+</select>
+ </mapper>

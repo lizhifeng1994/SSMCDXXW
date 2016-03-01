@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+
+namespace:必须是dao接口的全接口名
+
+id:必须是方法名
+
+ -->
+ 
+ <mapper namespace="com.baidu.dao.imp.USERInfoDaoImp">
+ 
+ <!-- 根据用户名和密码登陆 -->
+<select id="isByAdminUserAndAdminPwd" resultType="int"  parameterType="com.baidu.model.USERINFO">
+		select count(1) from USERINFO WHERE USER_TYPE='1' AND USER_FLAG='1' AND USER_NAME = #{USER_NAME}  AND USER_PWD = #{USER_PWD}
+</select>
+
+<!-- 得到用户信息列表，管理员不包括在内 -->
+<select id="getUSERList" resultType="com.baidu.model.USERINFO" parameterType="com.baidu.model.USERINFO">
+	select * FROM USERINFO WHERE USER_TYPE!='1' AND USER_FLAG = '1'
+	<if test=" USER_NAME!= null and USER_NAME != ''">and   USER_NAME  LIKE CONCAT(CONCAT('%',#{USER_NAME}),'%')</if>
+	<if test=" USER_TYPE!= null and USER_TYPE != ''">and   USER_TYPE = #{USER_TYPE}</if>	
+	<if test=" USER_WORK!= null and USER_WORK != ''">and   USER_WORK = #{USER_WORK}</if>	
+	<if test=" USER_EMAIL!= null and USER_EMAIL != ''">and   USER_EMAIL  LIKE CONCAT(CONCAT('%',#{USER_EMAIL}),'%')</if>	
+		limit #{sqlPageSize},#{pageSize}
+</select>
+
+<!-- 得到相应用户信息的条数 -->
+<select id="getUSERCount" resultType="int" parameterType="com.baidu.model.USERINFO">
+	SELECT COUNT(*) FROM USERINFO WHERE USER_TYPE!='1' AND USER_FLAG = '1'
+	<if test=" USER_NAME!= null and USER_NAME != ''">and   USER_NAME  LIKE CONCAT(CONCAT('%',#{USER_NAME}),'%')</if>
+	<if test=" USER_TYPE!= null and USER_TYPE != ''">and   USER_TYPE = #{USER_TYPE}</if>	
+	<if test=" USER_WORK!= null and USER_WORK != ''">and   USER_WORK = #{USER_WORK}</if>	
+	<if test=" USER_EMAIL!= null and USER_EMAIL != ''">and   USER_EMAIL  LIKE CONCAT(CONCAT('%',#{USER_EMAIL}),'%')</if>	
+</select>
+
+<!-- 查看用户名是否存在 -->
+<select id="USERExits" resultType="int" parameterType="com.baidu.model.USERINFO">
+	SELECT COUNT(*) FROM USERINFO WHERE USER_NAME = #{USER_NAME} AND USER_FLAG = '1'
+	<if test=" USER_ID!= null and USER_ID != ''">and   USER_ID != #{USER_ID}</if>
+</select>
+
+<!-- 判断有限是否存在 -->
+<select id="EMAILExits" resultType="int" parameterType="com.baidu.model.USERINFO">
+	SELECT COUNT(*) FROM USERINFO WHERE USER_EMAIL = #{USER_EMAIL} AND USER_FLAG = '1'
+	<if test=" USER_ID!= null and USER_ID != ''">and   USER_ID != #{USER_ID}</if>
+</select>
+
+<!-- 增加一个用户 -->
+<insert id="addUSER" parameterType="com.baidu.model.USERINFO">
+		INSERT INTO USERINFO(USER_ID,USER_NAME,USER_EMAIL,USER_PWD,USER_TYPE,USER_MARK) VALUES 
+		(#{USER_ID},#{USER_NAME},#{USER_EMAIL},#{USER_PWD},#{USER_TYPE},#{USER_MARK})
+</insert>
+
+<!-- 得到用户的详细信息 -->
+<select id="getUSER" resultType="com.baidu.model.USERINFO" parameterType="com.baidu.model.USERINFO">
+	SELECT * FROM USERINFO WHERE USER_ID = #{USER_ID} and USER_FLAG = "1"
+	
+</select>
+
+<!-- 根据用户名得到用户明细 -->
+<select id="getXXUSER" resultType="com.baidu.model.USERINFO" parameterType="com.baidu.model.USERINFO">
+	SELECT * FROM USERINFO WHERE USER_FLAG = "1"
+	<if test=" USER_NAME!= null and USER_NAME != ''">and   USER_NAME = #{USER_NAME}</if>
+	<if test=" USER_EMAIL!= null and USER_EMAIL != ''">and   USER_EMAIL = #{USER_EMAIL}</if>	
+</select>
+
+<!-- 改变用户的状态 -->
+<update id="updateUSER_WORk"  parameterType="com.baidu.model.USERINFO">
+	UPDATE USERINFO SET USER_WORK = #{USER_WORK}
+	WHERE USER_ID = #{USER_ID}
+</update>
+
+<!-- 修改密码 -->
+<update id="updateUSER_PWD"  parameterType="com.baidu.model.USERINFO">
+	UPDATE USERINFO SET USER_PWD = #{USER_PWD}
+	WHERE USER_ID = #{USER_ID}
+</update>
+
+<!-- 编辑一个用户 -->
+<update id="editUSER" parameterType="com.baidu.model.USERINFO">
+	UPDATE USERINFO SET USER_NAME = #{USER_NAME},USER_EMAIL=#{USER_EMAIL},USER_MARK=#{USER_MARK}
+	WHERE USER_ID = #{USER_ID}
+</update>
+
+<!-- 删除用户 -->
+<update id="delUSER" parameterType="com.baidu.model.USERINFO">
+	UPDATE USERINFO SET USER_FLAG = '0'
+	WHERE USER_ID = #{USER_ID}
+</update>
+
+<select id="getAll" parameterType="com.baidu.model.USERINFO" resultType="com.baidu.model.USERINFO">
+	select * FROM USERINFO WHERE USER_TYPE!='1' AND USER_FLAG = '1'
+	<if test=" USER_TYPE!= null and USER_TYPE != ''">and   USER_TYPE = #{USER_TYPE}</if>
+</select>
+
+<select id="weblogin" parameterType="com.baidu.model.USERINFO" resultType="int">
+	SELECT COUNT(*) FROM USERINFO WHERE  USER_FLAG = '1' AND USER_PWD=#{USER_PWD}
+	<if test=" USER_NAME!= null and USER_NAME != ''">and   USER_NAME = #{USER_NAME}</if>	
+	<if test=" USER_EMAIL!= null and USER_EMAIL != ''">and   USER_EMAIL = #{USER_EMAIL}</if>
+</select>
+
+ </mapper>

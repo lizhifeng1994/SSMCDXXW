@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+
+namespace:必须是dao接口的全接口名
+
+id:必须是方法名
+
+ -->
+ 
+ <mapper namespace="com.baidu.dao.imp.JZMXInfoDaoImp">
+ 
+ <!-- 得到该兼职信息的明细信息 -->
+<select id="getJZMX" resultType="com.baidu.model.JZMXINFO" parameterType="com.baidu.model.XXINFO">
+	select * from JZMXINFO  
+	 <if test="XX_ID!=null and XX_ID!='' ">  
+        WHERE XX_ID = #{XX_ID}   
+    </if>  
+</select>
+
+<!-- 修改兼职明细信息 -->
+<update id="editJZMX" parameterType="com.baidu.model.JZMXINFO">
+		UPDATE JZMXINFO SET JZ_SALARY = #{JZ_SALARY},JZJS_TYPE=#{JZJS_TYPE},JZGZ_TIME=#{JZGZ_TIME},JZGZ_FIELD=#{JZGZ_FIELD},
+		JZZP_NUMBER=#{JZZP_NUMBER},JZZW_MARK=#{JZZW_MARK},JZGS_MARK=#{JZGS_MARK},JZ_PHONE=#{JZ_PHONE},JZ_QQ=#{JZ_QQ}
+		WHERE XX_ID  = #{XX_ID}
+</update>
+
+<!-- 增加兼职明细信息 -->
+<insert id="addJZMX" parameterType="com.baidu.model.JZMXINFO">
+		INSERT INTO JZMXINFO(XX_ID,JZ_SALARY,JZJS_TYPE,JZGZ_TIME,JZGZ_FIELD,JZZP_NUMBER,JZZW_MARK,JZGS_MARK,JZ_PHONE,JZ_QQ) VALUES 
+		(#{XX_ID},#{JZ_SALARY},#{JZJS_TYPE},#{JZGZ_TIME},#{JZGZ_FIELD},#{JZZP_NUMBER},#{JZZW_MARK},#{JZGS_MARK},#{JZ_PHONE},#{JZ_QQ})
+</insert>
+ 
+ </mapper>

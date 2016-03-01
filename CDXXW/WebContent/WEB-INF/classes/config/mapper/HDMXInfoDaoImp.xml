@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+
+namespace:必须是dao接口的全接口名
+
+id:必须是方法名
+
+ -->
+ 
+ <mapper namespace="com.baidu.dao.imp.HDMXInfoDaoImp">
+ 	<!-- 增加活动明细信息 -->
+ 	<insert id="addHDMX"  parameterType="com.baidu.model.ESMXINFO">
+ 			INSERT INTO HDMXINFO(XX_ID,HD_START_TIME,HD_END_TIME,HD_PLACE,HD_PHONE,HD_QQ,HD_WEB,HD_CONTENT) VALUES 
+		(#{XX_ID},#{HD_START_TIME},#{HD_END_TIME},#{HD_PLACE},#{HD_PHONE},#{HD_QQ},#{HD_WEB},#{HD_CONTENT})
+ 	</insert>
+ 	
+ 	<!-- 编辑活动审核状态 -->
+ 	<update id="editHD_STATE" parameterType="com.baidu.model.XXINFO">
+	UPDATE XXINFO SET XX_STATE = #{XX_STATE}
+	WHERE XX_ID = #{XX_ID}
+	</update>
+	
+	<!-- 得到该活动信息的明细信息 -->
+	<select id="getHDMX" resultType="com.baidu.model.HDMXINFO" parameterType="com.baidu.model.XXINFO">
+	select * from HDMXINFO  
+	 <if test="XX_ID!=null and XX_ID!='' ">  
+        WHERE XX_ID = #{XX_ID}   
+    </if>  
+	</select>
+	
+	<!-- 修改活动明细信息 -->
+	<update id="editHDMX" parameterType="com.baidu.model.HDMXINFO">
+		UPDATE HDMXINFO SET HD_PLACE = #{HD_PLACE},HD_START_TIME = #{HD_START_TIME},HD_END_TIME = #{HD_END_TIME},HD_PHONE = #{HD_PHONE},HD_QQ = #{HD_QQ},HD_WEB=#{HD_WEB},HD_CONTENT=#{HD_CONTENT}
+		WHERE XX_ID  = #{XX_ID}
+	</update>	
+ </mapper>

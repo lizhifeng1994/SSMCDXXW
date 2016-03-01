@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+
+namespace:必须是dao接口的全接口名
+
+id:必须是方法名
+
+ -->
+ <mapper namespace="com.baidu.dao.imp.ZNTZInfoDaoImp">
+ 
+ <!-- 得到全部的收藏信息 -->
+<select id="getAll" resultType="com.baidu.model.ZNTZINFO"  parameterType="com.baidu.model.ZNTZINFO">
+		select * from ZNTZINFO WHERE ZNTZ_FLAG = '1' 	
+		<if test=" USER_NAME!= null and USER_NAME != ''">and   USER_NAME  LIKE CONCAT(CONCAT('%',#{USER_NAME}),'%')</if>
+		<if test=" ZNTZ_STATE!= null and ZNTZ_STATE != ''">and   ZNTZ_STATE = #{ZNTZ_STATE}</if>
+		Order By ZNTZ_TIME DESC
+		limit #{sqlPageSize},#{pageSize}
+</select>
+
+<!-- 得到相应信息的条数 --> 
+<select id="getCount" resultType="int" parameterType="com.baidu.model.ZNTZINFO">
+	SELECT COUNT(*) FROM ZNTZINFO WHERE ZNTZ_FLAG = '1' 
+	<if test=" USER_NAME!= null and USER_NAME != ''">and   USER_NAME  LIKE CONCAT(CONCAT('%',#{USER_NAME}),'%')</if>
+		<if test=" ZNTZ_STATE!= null and ZNTZ_STATE != ''">and   ZNTZ_STATE = #{ZNTZ_STATE}</if>	
+</select>
+
+<!-- 删除 -->
+<update id="del"  parameterType="com.baidu.model.ZNTZINFO">
+	UPDATE ZNTZINFO SET ZNTZ_FLAG='0' WHERE ZNTZ_ID = #{ZNTZ_ID}
+</update>
+
+<!-- 增加 -->
+<insert id="add" parameterType="com.baidu.model.ZNTZINFO">
+		INSERT INTO ZNTZINFO(ZNTZ_ID,USER_NAME,ZNTZ_CONTENT) VALUES 
+		(#{ZNTZ_ID},#{USER_NAME},#{ZNTZ_CONTENT})
+</insert>
+ </mapper>
+ 
+ 

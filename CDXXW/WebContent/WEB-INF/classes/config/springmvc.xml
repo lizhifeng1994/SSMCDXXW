@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd">
+
+<!-- 完成实例化以及自动注解 -->
+<context:component-scan base-package="com.baidu" use-default-filters="false">
+	<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+</context:component-scan>
+
+
+            
+	<!-- 配置视图解析器: 如何把 handler 方法返回值解析为实际的物理视图 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/pages/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+	
+	<!-- 登陆过滤器 -->
+	<mvc:interceptors>
+    	<mvc:interceptor>  
+        	<mvc:mapping path="/web/**"/>   
+        	<!--exclude-mapping表示不用拦截的请求地址 -->  
+			<mvc:exclude-mapping path="/web/cdxxw"/>
+			<mvc:exclude-mapping path="/web/user_exits"/>          
+        	<!-- 定义在mvc:interceptor下面的表示是对特定的请求才进行拦截的 -->  
+        	<bean class="com.baidu.filter.LoginFilter"/>  
+    	</mvc:interceptor>
+    	
+    	<mvc:interceptor>  
+        	<mvc:mapping path="/webhdxx/**"/>   
+        	<!--exclude-mapping表示不用拦截的请求地址 -->  
+			<mvc:exclude-mapping path="/webhdxx/list"/>       
+        	<!-- 定义在mvc:interceptor下面的表示是对特定的请求才进行拦截的 -->  
+        	<mvc:exclude-mapping path="/webhdxx/hdmx"/>   
+        	<bean class="com.baidu.filter.LoginFilter"/>  
+    	</mvc:interceptor>
+    	
+    	<mvc:interceptor>  
+        	<mvc:mapping path="/webjzxx/**"/>   
+        	<!--exclude-mapping表示不用拦截的请求地址 -->  
+			<mvc:exclude-mapping path="/webjzxx/list"/>       
+        	<!-- 定义在mvc:interceptor下面的表示是对特定的请求才进行拦截的 -->  
+        	<mvc:exclude-mapping path="/webjzxx/jzmx"/>
+        	<mvc:exclude-mapping path="/webjzxx/jzxxadd"/>
+        	<bean class="com.baidu.filter.LoginFilter"/>  
+    	</mvc:interceptor>
+    	
+    	<mvc:interceptor>  
+        	<mvc:mapping path="/webesxx/**"/>   
+        	<!--exclude-mapping表示不用拦截的请求地址 -->  
+			<mvc:exclude-mapping path="/webesxx/list"/>       
+        	<!-- 定义在mvc:interceptor下面的表示是对特定的请求才进行拦截的 -->  
+        	<mvc:exclude-mapping path="/webesxx/esmx"/>   
+        	<bean class="com.baidu.filter.LoginFilter"/>  
+    	</mvc:interceptor>
+    	
+    	<mvc:interceptor>  
+        	<mvc:mapping path="/webuser/**"/>   
+        	<!--exclude-mapping表示不用拦截的请求地址 -->  
+			<mvc:exclude-mapping path="/webuser/login"/>       
+        	<!-- 定义在mvc:interceptor下面的表示是对特定的请求才进行拦截的 -->  
+        	<mvc:exclude-mapping path="/webuser/register"/>
+        	<mvc:exclude-mapping path="/webuser/weblogin"/>
+        	<mvc:exclude-mapping path="/webuser/add"/>
+        	<bean class="com.baidu.filter.LoginFilter"/>  
+    	</mvc:interceptor>
+    </mvc:interceptors>
+
+	
+	<!-- 图片上传 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="utf-8"/>
+		<!-- 最大内存大小 -->
+		<property name="maxInMemorySize" value="10240"/>
+		<!-- 最大文件大小，-1为不限制大小 -->
+		<property name="maxUploadSize" value="-1"/>
+	</bean>
+<!-- 注解驱动 -->
+<mvc:annotation-driven></mvc:annotation-driven>
+
+<!-- 解决静态资源被禁止 -->
+<!-- 后台样式 -->
+<mvc:resources location="/content/adminui/css/" mapping="/css/**"></mvc:resources>
+<mvc:resources location="/content/adminui/images/" mapping="/images/**"></mvc:resources>
+<mvc:resources location="/content/adminui/js/" mapping="/js/**"></mvc:resources>
+<mvc:resources location="/content/adminui/lib/" mapping="/lib/**"></mvc:resources>
+<mvc:resources location="/content/adminui/skin/" mapping="/skin/**"></mvc:resources>
+
+<!-- 前台样式 -->
+<mvc:resources location="/content/webui/CDXXW-ZONE/" mapping="/CDXXW-ZONE/**"></mvc:resources>
+<mvc:resources location="/content/webui/fonts/" mapping="/fonts/**"></mvc:resources>
+<mvc:resources location="/content/webui/img/" mapping="/img/**"></mvc:resources>
+<mvc:resources location="/content/webui/infosend/" mapping="/infosend/**"></mvc:resources>
+<mvc:resources location="/content/webui/login/" mapping="/login/**"></mvc:resources>
+<mvc:resources location="/content/webui/webcss/" mapping="/webcss/**"></mvc:resources>
+<mvc:resources location="/content/webui/webjs/" mapping="/webjs/**"></mvc:resources>
+<mvc:resources location="/content/webui/webimages/" mapping="/webimages/**"></mvc:resources>
+<mvc:resources location="/content/webui/weblib/" mapping="/weblib/**"></mvc:resources>
+<!-- 上传图片的路径 -->
+<mvc:resources location="/upload/" mapping="/**"></mvc:resources>
+
+</beans>
+
+

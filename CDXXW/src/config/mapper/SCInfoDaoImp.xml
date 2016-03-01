@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+
+namespace:必须是dao接口的全接口名
+
+id:必须是方法名
+
+ -->
+ <mapper namespace="com.baidu.dao.imp.SCXXInfoDaoImp">
+ 
+ <!-- 得到全部的收藏信息 -->
+<select id="getAll" resultType="com.baidu.model.SCINFO"  parameterType="com.baidu.model.SCINFO">
+		select * from SCINFO WHERE SC_FLAG = '1' 	
+		<if test=" USER_NAME!= null and USER_NAME != ''">and   USER_NAME  LIKE CONCAT(CONCAT('%',#{USER_NAME}),'%')</if>
+		<if test=" SC_TYPE!= null and SC_TYPE != ''">and   SC_TYPE = #{SC_TYPE}</if>
+		<if test=" XX_TITLE!= null and XX_TITLE != ''">and   XX_TITLE  LIKE CONCAT(CONCAT('%',#{XX_TITLE}),'%')</if>
+				Order By SC_TIME DESC	
+		limit #{sqlPageSize},#{pageSize}
+</select>
+
+<!-- 得到相应信息的条数 --> 
+<select id="getCount" resultType="int" parameterType="com.baidu.model.SCINFO">
+	SELECT COUNT(*) FROM SCINFO WHERE SC_FLAG = '1' 
+	<if test=" USER_NAME!= null and USER_NAME != ''">and   USER_NAME  LIKE CONCAT(CONCAT('%',#{USER_NAME}),'%')</if>
+		<if test=" SC_TYPE!= null and SC_TYPE != ''">and   SC_TYPE = #{SC_TYPE}</if>
+		<if test=" XX_TITLE!= null and XX_TITLE != ''">and   XX_TITLE  LIKE CONCAT(CONCAT('%',#{XX_TITLE}),'%')</if>	
+</select>
+
+<!-- 删除 -->
+<update id="del"  parameterType="com.baidu.model.SCINFO">
+	UPDATE SCINFO SET SC_FLAG='0' WHERE SC_ID = #{SC_ID}
+</update>
+
+<insert id="add" parameterType="com.baidu.model.SCINFO">
+	INSERT INTO SCINFO(SC_ID,XX_ID,XX_TITLE,USER_NAME,SC_TYPE) VALUES 
+		(#{SC_ID},#{XX_ID},#{XX_TITLE},#{USER_NAME},#{SC_TYPE})
+</insert>
+
+<select id="exits" resultType="int" parameterType="com.baidu.model.SCINFO">
+	SELECT COUNT(*) FROM SCINFO WHERE SC_FLAG = '1' AND USER_NAME = #{USER_NAME} AND XX_ID = #{XX_ID} 
+</select>
+
+ </mapper>
+ 
+ 
