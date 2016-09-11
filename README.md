@@ -22,6 +22,31 @@
 
 ###所用技术：
 
-SSM框架
+**SSM框架**
 
-**Spring**:
+Spring: Spring是一个轻量级的控制反转（IoC）和面向切面（AOP）的容器框架
+
+Spring MVC:Spring MVC分离了控制器、模型对象、分派器以及处理程序对象的角色，这种分离让它们更容易进行定制。
+
+MyBatis: MyBatis是一个基于Java的持久层框架, MyBatis使用简单的XML或注解用于配置和原始映射，将接口和Java的 POJOs（ Plain Old Java Objects，普通的Java对象）映射成数据库中的记录。
+
+
+**JQuery**
+
+JQuery是一个JS函数库。本次毕业设计使用JQuery进行DOM操作，Ajax
+
+**layer**
+
+[官方地址](http://layer.layui.com/)
+
+layer是一款基于JQuery的web弹层组件，layer提供丰富的接口带来友好的操作体验
+
+**Validform*
+
+[官方地址](http://validform.rjboy.cn/)
+
+Validform是一款基于JQuery的表单验证插件。本次毕业设计中在验证邮箱和用户名使用Validform中ajax可以进行实时验证
+
+
+
+
